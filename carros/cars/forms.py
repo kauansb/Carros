@@ -7,31 +7,14 @@ class CarModelForm(forms.ModelForm):
         model = Car
         fields = '__all__' # Uso de todos os campos disponíveis em Car
 
+    def clean_value(self): # Regra para o campo de value com uso de validação automática do django
+        value = self.cleaned_data.get['value']
+        if value < 20000:
+            self.add_error('value', 'Valor mínimo do carro deve ser R$20.000')
+        return value
 
-
-
-"""         Modelo antigo com forms   
-
-class CarForm(forms.Form):
-    model = forms.CharField(max_length=200)
-    brand = forms.ModelChoiceField(Brand.objects.all()) # Lista todas as marcas cadastradas no banco.
-    factory_year = forms.IntegerField() 
-    model_year = forms.IntegerField()
-    plate = forms.CharField() 
-    value = forms.FloatField() 
-    photo = forms.ImageField(allow_empty_file=True) 
-
-    def save(self):
-        car = Car( 
-            model = self.cleaned_data['model'],
-            brand = self.cleaned_data['brand'],
-            factory_year = self.cleaned_data['factory_year'],
-            model_year = self.cleaned_data['model_year'],
-            plate = self.cleaned_data['plate'],
-            value = self.cleaned_data['value'],
-            photo = self.cleaned_data['photo'],
-        ) # Criação do objeto carro para que seja enviado ao banco
-        car.save()
-        return car
-
-"""
+    def clean_factory_year(self):
+        factory_year = self.cleaned_data.get['factory_year']
+        if factory_year < 1980:
+            self.add_error('factoy_year', 'Não é possível cadastrar carros fabricados antes de 1980')
+            return factory_year
