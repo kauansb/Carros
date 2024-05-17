@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <form action="" enctype="multipart/form-data" method="post"> <!-- enctype para tipo de formulário que trabalha com binários -->
+        {% csrf_token %} <!-- Proteção para ataques da web -->
+
+        <table>
+            {{ new_car_form.as_table }}
+        </table>
+
+        <input type="submit" value="Cadastrar" class="btn btn-primary">
+        
+    </form>
+
+{% endblock %}
