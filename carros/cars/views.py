@@ -20,8 +20,7 @@ def new_car_view(request):
         # print(new_car_form.data) TESTE
         if new_car_form.is_valid(): # Verificando se os dados recebidos são válidos baseado em regras personalizadas
             new_car_form.save() # cadastra no banco de dados o objeto ligado ao modelform
-            return redirect('cars_list')
-        
+            return redirect('cars_list')   
     else:
         new_car_form = CarModelForm() 
     return render(request, 'new_car.html', {'new_car_form': new_car_form}) # Ao ser chamada cria um formulário vazio 
