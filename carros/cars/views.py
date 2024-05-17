@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from cars.models import Car
-from cars.forms import CarForm
+from cars.forms import CarModelForm
 
 
 def cars_view(request): 
@@ -16,12 +16,12 @@ def cars_view(request):
 
 def new_car_view(request):
     if request.method == 'POST':
-        new_car_form = CarForm(request.POST, request.FILES) # Contém todos os dados enviados pelo form, incluindo arquivos
+        new_car_form = CarModelForm(request.POST, request.FILES) # Contém todos os dados enviados pelo form, incluindo arquivos
         # print(new_car_form.data) TESTE
         if new_car_form.is_valid(): # Verificando se os dados recebidos são válidos baseado em regras personalizadas
-            new_car_form.save()
+            new_car_form.save() # cadastra no banco de dados o objeto ligado ao modelform
             return redirect('cars_list')
         
     else:
-        new_car_form = CarForm() 
+        new_car_form = CarModelForm() 
     return render(request, 'new_car.html', {'new_car_form': new_car_form}) # Ao ser chamada cria um formulário vazio 

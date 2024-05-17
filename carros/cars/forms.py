@@ -2,6 +2,16 @@ from django import forms
 from cars.models import Brand, Car
 
 
+class CarModelForm(forms.ModelForm):
+    class Meta: # Reescrita da classe Meta
+        model = Car
+        fields = '__all__' # Uso de todos os campos disponíveis em Car
+
+
+
+
+"""         Modelo antigo com forms   
+
 class CarForm(forms.Form):
     model = forms.CharField(max_length=200)
     brand = forms.ModelChoiceField(Brand.objects.all()) # Lista todas as marcas cadastradas no banco.
@@ -23,3 +33,5 @@ class CarForm(forms.Form):
         ) # Criação do objeto carro para que seja enviado ao banco
         car.save()
         return car
+
+"""
