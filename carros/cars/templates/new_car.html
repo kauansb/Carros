@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form action="" enctype="multipart/form-data" method="post"> <!-- enctype para tipo de formulário que trabalha com binários -->
+    <form enctype="multipart/form-data" method="post"> <!-- enctype para tipo de formulário que trabalha com binários -->
         {% csrf_token %} <!-- Proteção para ataques da web -->
 
         <table>

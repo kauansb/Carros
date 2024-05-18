@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cars', # Declarando meu app cars para ser usada pelo projeto
+    'accounts',
 ]
 
 MIDDLEWARE = [
