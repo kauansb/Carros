@@ -72,9 +72,11 @@
   <header>
     <nav>
       <ul>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated  %}
         <li>Olá, <strong> {{ user.username }} </strong> </li>
-        <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
+          {% if user.is_superuser %}
+          <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
+          {% endif %}
         {% endif %}
         {% if not user.is_authenticated %}
           <li><a href="{% url 'register' %}">Cadastre-se</a></li>
