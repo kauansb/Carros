@@ -2,8 +2,7 @@
 
 {% block content %}
 
-    <form method="post">
-        {% csrf_token %}
+    <form method="post"> {% csrf_token %}
 
         <div class="form-group">
             {{ user_form.username.errors }} <!-- Se houver erros ao cadastrar um novo usuário é disparada as respectivas mensagens de erro para cada campo -->
