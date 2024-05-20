@@ -13,6 +13,7 @@ class CarsListView(ListView):
         search = self.request.GET.get('search')
         if search:
             cars = cars.filter(model__icontains=search)
+        return cars
 
 
 class NewCarCreateView(CreateView):
