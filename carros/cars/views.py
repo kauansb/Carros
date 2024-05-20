@@ -1,60 +1,22 @@
-from django.shortcuts import render, redirect
 from cars.models import Car
 from cars.forms import CarModelForm
-from django.views import View
+from django.views.generic import ListView, CreateView
 
 # Class Based Views
-class CarsView(View):
-    def get(self, request):
-        cars = Car.objects.all().order_by('model')  # busca da tabela carros pela camada model para poder ser utilizado pelo template
-        search = request.GET.get('search') 
+class CarsListView(ListView):
+    model = Car
+    template_name = 'cars.html'
+    context_object_name = 'cars' # objeto que irá para template
 
-        if search: # Verifica se há uso do parâmetro de busca, se não, renderiza todos os carros
-            cars = Car.objects.filter(model__icontains=search)
-        # print(cars)
-
-        return render(request, 'cars.html', # Render usa a requisição e o template para que seja enviado pela view. A pasta templates ao ser criada é vista automaticamente pelo django
-            {'cars': cars}) 
-
-class NewCarView(View):
-    def get(self, request):
-        new_car_form = CarModelForm()
-        return render(request, 'new_car.html', {'new_car_form': new_car_form}) # Ao ser chamada cria um formulário vazio 
-
-    def post(self, request):
-        new_car_form = CarModelForm(request.POST, request.FILES) # Contém todos os dados enviados pelo form, incluindo arquivos
-        # print(new_car_form.data) TESTE
-        if new_car_form.is_valid(): # Verificando se os dados recebidos são válidos baseado em regras personalizadas
-            new_car_form.save() # cadastra no banco de dados o objeto ligado ao modelform
-            return redirect('cars_list')
-        return render(request, 'new_car.html', {'new_car_form': new_car_form})
+    def get_queryset(self): # aponta que o filtro será feito pelo modelo do carro, ao invés do padrão.
+        cars = super().get_queryset().order_by('model')
+        search = self.request.GET.get('search')
+        if search:
+            cars = cars.filter(model__icontains=search)
 
 
-
-"""    
-
-# Functions Based Views (Forma alternativa de criar views)
-def cars_view(request): 
-    cars = Car.objects.all().order_by('model')
-    search = request.GET.get('search') 
-
-    if search:
-        cars = Car.objects.filter(model__icontains=search)
-    # print(cars)
-
-    return render(request, 'cars.html', # Render usa a requisição e o template para que seja enviado pela view. A pasta templates ao ser criada é vista automaticamente pelo django
-        {'cars': cars}) 
-
-def new_car_view(request):
-    if request.method == 'POST':
-        new_car_form = CarModelForm(request.POST, request.FILES) # Contém todos os dados enviados pelo form, incluindo arquivos
-        # print(new_car_form.data) TESTE
-        if new_car_form.is_valid(): # Verificando se os dados recebidos são válidos baseado em regras personalizadas
-            new_car_form.save() # cadastra no banco de dados o objeto ligado ao modelform
-            return redirect('cars_list')   
-    else:
-        new_car_form = CarModelForm() 
-    return render(request, 'new_car.html', {'new_car_form': new_car_form}) # Ao ser chamada cria um formulário vazio 
-
-
-"""
+class NewCarCreateView(CreateView):
+    model = Car
+    form_class = CarModelForm
+    template_name = 'new_car.html'
+    success_url = '/cars/' # redireciona para a url ao cadastrar um carro com sucesso
