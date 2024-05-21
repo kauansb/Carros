@@ -5,7 +5,7 @@ from cars.models import Car, CarInventory
 
 def car_inventory_update():
     cars_count = Car.objects.all().count() # Contagem de registros
-    cars_value = Car.objects.aaggregate( # Retorna uma query que soma todos os values dos carros
+    cars_value = Car.objects.aggregate( # Retorna uma query que soma todos os values dos carros
         total_value=Sum('value')
     )['total_value'] # Retorna apenas o valor, ao invés do padrão de 'campo:valor'
     CarInventory.objects.create( 
