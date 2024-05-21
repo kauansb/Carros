@@ -9,7 +9,7 @@ client = OpenAI(
 
 def get_car_ai_bio(model, brand, year):
     message = ''''
-    Me mostre uma descrição de venda para o carro {} {} {} em apenas 250 caracteres.
+    Me mostre uma descrição de venda para o carro {} {} {} em apenas 150 caracteres.
     Descreva especificações técnicas desse modelo de carro.
     '''
     message = message.format(brand, model, year)
