@@ -96,8 +96,12 @@
   </div>
   {% if user.is_authenticated %}
   <div class="buttons-container">
-    <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
-    <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+      {% if perms.cars.change_car %}
+          <a href="{% url 'car_update' pk=object.pk %}" class="btn btn-primary">Editar</a>
+      {% endif %}
+      {% if perms.cars.delete_car %}
+          <a href="{% url 'car_delete' pk=object.pk %}" class="btn btn-danger">Deletar</a>
+      {% endif %}
   </div>
-  {% endif %}
+{% endif %}
 {% endblock %}
