@@ -16,14 +16,16 @@ def car_inventory_update():
 
 @receiver(pre_save, sender=Car)
 def car_pre_save(sender, instance, **kwargs): # campo bio será alimentado automaticamente caso seja nula, porém sempre persiste a que o usuário informa
+    """ Execução da API de IA
     if not instance.bio: # Usando IA para criar biografias personalizadas para cada registro
         ai_bio = get_car_ai_bio(
             instance.model, instance.brand, instance.model_year
         )
         instance.bio = ai_bio
-    
-    #if not instance.bio:
-    #    instance.bio = 'Bio gerada automaticamente' 
+    """
+    """""" 
+    if not instance.bio:
+        instance.bio = 'Bio gerada automaticamente' 
    
     
 
