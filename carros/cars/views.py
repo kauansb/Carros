@@ -1,26 +1,48 @@
-from django.shortcuts import render, redirect
 from cars.models import Car
 from cars.forms import CarModelForm
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
+# Class Based Views
+class CarsListView(ListView):
+    model = Car
+    template_name = 'cars.html'
+    context_object_name = 'cars' # objeto que irá para template
 
-def cars_view(request): 
-    cars = Car.objects.all().order_by('model')  # busca da tabela carros pela camada model para poder ser utilizado pelo template
-    search = request.GET.get('search') 
+    def get_queryset(self): # aponta que o filtro será feito pelo modelo do carro, ao invés do padrão.
+        cars = super().get_queryset().order_by('model')
+        search = self.request.GET.get('search')
+        if search:
+            cars = cars.filter(model__icontains=search)
+        return cars
 
-    if search: # Verifica se há uso do parâmetro de busca, se não, renderiza todos os carros
-        cars = Car.objects.filter(model__icontains=search)
-    # print(cars)
+class CarDetailView(DetailView):
+    model = Car
+    template_name = 'car_detail.html'
 
-    return render(request, 'cars.html', # Render usa a requisição e o template para que seja enviado pela view. A pasta templates ao ser criada é vista automaticamente pelo django
-        {'cars': cars}) 
+@method_decorator(login_required(login_url='login'), name='dispatch')
+@method_decorator(permission_required('cars.add_car', raise_exception=True), name='dispatch')
+class NewCarCreateView(CreateView):
+    model = Car
+    form_class = CarModelForm
+    template_name = 'new_car.html'
+    success_url = '/cars/' # redireciona para a url ao cadastrar um carro com sucesso
 
-def new_car_view(request):
-    if request.method == 'POST':
-        new_car_form = CarModelForm(request.POST, request.FILES) # Contém todos os dados enviados pelo form, incluindo arquivos
-        # print(new_car_form.data) TESTE
-        if new_car_form.is_valid(): # Verificando se os dados recebidos são válidos baseado em regras personalizadas
-            new_car_form.save() # cadastra no banco de dados o objeto ligado ao modelform
-            return redirect('cars_list')   
-    else:
-        new_car_form = CarModelForm() 
-    return render(request, 'new_car.html', {'new_car_form': new_car_form}) # Ao ser chamada cria um formulário vazio 
+@method_decorator(login_required(login_url='login'), name='dispatch')
+@method_decorator(permission_required('cars.change_car', raise_exception=True), name='dispatch')
+class CarUpdateView(UpdateView):
+    model = Car
+    form_class = CarModelForm
+    template_name = 'car_update.html'
+
+    def get_success_url(self): # redireciona para o carro editado
+        return reverse_lazy('car_detail', kwargs={'pk': self.object.pk})
+
+@method_decorator(login_required(login_url='login'), name='dispatch')
+@method_decorator(permission_required('cars.delete_car', raise_exception=True), name='dispatch')
+class CarDeleteView(DeleteView):
+    model = Car
+    template_name = 'car_delete.html'
+    success_url = '/cars/'

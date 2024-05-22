@@ -31,6 +31,7 @@ develop-eggs/
 *.sqlite3
 db.sqlite3
 
+
 # If your build process includes running Django tests, you can ignore the following:
 .coverage
 .coverage.*

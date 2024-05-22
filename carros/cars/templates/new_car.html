@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-    <form action="" enctype="multipart/form-data" method="post"> <!-- enctype para tipo de formulário que trabalha com binários -->
-        {% csrf_token %} <!-- Proteção para ataques da web -->
-
-        <table>
-            {{ new_car_form.as_table }}
-        </table>
-
-        <input type="submit" value="Cadastrar" class="btn btn-primary">
-        
-    </form>
-
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form enctype="multipart/form-data" method="post" class="bg-light p-4 rounded shadow-sm">
+                {% csrf_token %}
+                <h1 class="text-center mb-4">Cadastro de Carro</h1>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
