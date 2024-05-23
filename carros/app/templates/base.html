@@ -74,6 +74,7 @@
 
     main {
         flex: 1;
+        padding-top: 50px; /* Ajuste o padding-top para evitar que o conteúdo fique atrás da navbar */
     }
 
   </style>
@@ -91,8 +92,7 @@
         </div>
     {% endif %}
 
-
-    <nav>
+    <nav class="fixed-top">
       <ul>
         {% if user.is_authenticated %}
         <li>Olá, <strong>{{ user.username }}</strong></li>
