@@ -74,38 +74,9 @@
 
     main {
         flex: 1;
+        padding-top: 50px; /* Ajuste o padding-top para evitar que o conteúdo fique atrás da navbar */
     }
 
-    .alert {
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid transparent;
-        border-radius: 4px;
-    }
-
-    .alert-success {
-        color: #3c763d;
-        background-color: #dff0d8;
-        border-color: #d6e9c6;
-    }
-
-    .alert-error {
-        color: #a94442;
-        background-color: #f2dede;
-        border-color: #ebccd1;
-    }
-
-    .alert-info {
-        color: #31708f;
-        background-color: #d9edf7;
-        border-color: #bce8f1;
-    }
-
-    .alert-warning {
-        color: #8a6d3b;
-        background-color: #fcf8e3;
-        border-color: #faebcc;
-    }
   </style>
 </head>
 <body>
@@ -121,8 +92,7 @@
         </div>
     {% endif %}
 
-
-    <nav>
+    <nav class="fixed-top">
       <ul>
         {% if user.is_authenticated %}
         <li>Olá, <strong>{{ user.username }}</strong></li>
