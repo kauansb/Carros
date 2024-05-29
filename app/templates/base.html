@@ -90,8 +90,8 @@
       <ul>
         {% if user.is_authenticated %}
         <li>Olá, <strong>{{ user.username }}</strong></li>
-          {% if user.is_superuser %}
-          <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
+          {% if perms.cars.add_car %}
+            <li><a href="{% url 'new_car' %}">Cadastrar Carro</a></li>
           {% endif %}
         {% endif %}
         {% if not user.is_authenticated %}
