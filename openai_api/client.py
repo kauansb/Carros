@@ -1,11 +1,9 @@
+from django.conf import settings
 from openai import OpenAI
-import os
-
 
 client = OpenAI(
-    api_key=os.environ.get("OPEN_API_KEY"),
+    api_key=settings.API_KEY,
 )
-
 
 def get_car_ai_bio(model, brand, year):
     message = ''''

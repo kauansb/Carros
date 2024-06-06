@@ -151,3 +151,8 @@ LOGGING = {
         },
     },
 }
+
+API_KEY = os.getenv('OPEN_API_KEY')
+
+if not API_KEY:
+    raise ValueError("A variável de ambiente OPEN_API_KEY não está definida")
