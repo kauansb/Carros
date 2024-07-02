@@ -35,6 +35,7 @@ class LoginView(View):
         else:
             messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
             login_form = AuthenticationForm()
+        messages.error(request, 'Usuário ou senha incorretos. Tente novamente.')
         return render(request, 'login.html', {'login_form': login_form})
 
 class LogoutView(View):
